@@ -1,0 +1,315 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+{% load static %}
+<html lang="en">
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<head>
+      <title>PNG or JPG (JPEG) - which format to choose?</title>
+      <meta name="description" content="PNG or JPG(JPEG)? See which format will be the best for you. Following our guidelines you will always achieve the best image quality and the smallest file size possible." />
+      <meta name="keywords" content="" />
+
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+	  <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+	  <script src="{% static 'js/jquery-1.8.3.min.js' %}"></script>
+
+     <style>
+    .ui-widget .ui-widget { font-size: 0.6em; }
+    .ui-widget-header { display:none; }
+    #dialog-modal p {text-align:center;}     
+     </style>
+
+<script type="text/javascript">
+    
+    $(document).ready(function() {
+
+           var $dialog = $('<div></div>')
+                .html('<div id="dialog-modal">\
+                    <p></p>\
+                    <p><img src="{% static "images/dots.gif" %}" width="40" height="40"></p>\
+                    <p>Uploading image...</p>\
+                    </div>')
+                .dialog({
+                    height: 160,
+                    width: 400,
+                    title: 'titleee'});
+
+          $dialog.dialog('close');
+
+           $("#submit-resize-button").click(function(){
+               var fileName = $('#fileInput').val();
+               if (fileName !== ''){
+                   $dialog.dialog('open');
+               }
+        });
+
+        if (typeof lastHeight !== 'undefined') {
+            $('#height').val(lastHeight);
+        }
+        if (typeof lastWidth !== 'undefined') {
+            $('#width').val(lastWidth);
+        }
+
+
+        
+        var sliderValue = 50;
+        if (typeof lastUserSliderValue !== 'undefined') {
+            sliderValue = lastUserSliderValue;
+        }
+        if ($("#percent-resize") == "") {
+            sliderValue = $("#percent-resize").slider("value");
+        }
+
+        $("#percent-slider").slider({
+            min:1,
+            max:100,
+            value:sliderValue,
+            slide:function (event, ui) {
+                $("#percent-resize").val(ui.value);
+            }
+        });
+
+        $("#percent-resize").val(sliderValue);
+
+
+        if (typeof lastResizeMethod !== 'undefined') {
+            if (lastResizeMethod == "dimensions") {
+                dimensionsMethodSelected();
+            } else {
+                percentMethodSelected();
+            }
+        } else {
+            percentMethodSelected();
+        }
+
+        $('#percent-method').click(function () {
+            percentMethodSelected();
+        });
+
+        $('#dimensions-method').click(function () {
+            dimensionsMethodSelected();
+        });
+
+
+
+    });
+</script>
+
+  </head>
+<body>
+<div id="fb-root"></div>
+
+<div class="container">
+
+
+    <div class="top_menu">
+        <div class="menu">
+            <ul>
+                <li><a class="currentM6enuItem" href="{% url 'index' %}">Image Resizer</a></li>
+                <li><a class="" href="{% url 'image_compressor' %}">Image Compressor</a></li>
+                <li><a class="" href="{% url 'online_image_converter' %}">Image Converter</a></li>
+                <li><a class="" href="{% url 'image_dehazer' %}">Image De-Hazer</a></li>
+            </ul>
+        </div>
+    </div>
+    
+        <a href="{% url 'index' %}">
+            <div class="logo">
+                <img src="{% static 'images/simple-image-resizer-128x128.png' %}" alt="free online Re-Image logo"/>
+                <div>Re-Image [Image Editor]</div>
+                <div class="tagline">Resize image without losing quality!</div>
+            </div>
+        </a>
+
+<div class="clear_both"></div>
+
+<div class="left_column">
+<div class="article">
+    <h1>PNG or JPG (JPEG) - which format to choose?</h1>
+
+    <p>
+        Every day browsing the Internet we deal with images, such as photos, diagrams and charts.
+        It is very common that images are stored in a wrong format, being displayed in a bad quality
+        and using more space than necessary.
+        The question is: <strong>how to choose the right format?</strong> This article will attempt to answer this question.
+    </p>
+
+    <p>
+        The picture below shows a practical, simplified application of the PNG and JPG (JPEG) image formats.
+    </p>
+
+    <img class="article_image" src="../static/images/article/en/png-or-jpg-which-format-to-choose.jpg"
+         alt="png or jpg - which format to choose" title="png or jpg - which format to choose">
+    <p class="img_caption">Practical application of PNG and JPG (JPEG)</p>
+
+    <p>
+        Based on the picture above, the choice is really simple - photos should be stored in JPG (JPEG) and
+        illustrations should be stored in the PNG format. Following these guidelines you will always achieve the best
+        image quality at the same time maintaining the smallest file size possible.
+    </p>
+    <p>
+        Now let’s see how these guidelines apply in practice. In the following experiments we will use a photo and a chart.
+    </p>
+
+    <p>
+        In the first example you can see a photo taken with a camera and stored in JPG. The photo was then converted from JPG into PNG.
+    </p>
+
+    <table class="article_table">
+        <tr>
+            <td class="photo">
+                <img src="../static/images/article/ship_wreck_480x300.jpg" alt="photo in the JPG format" title="photo in the JPG format">
+                <p class="img_caption">Photo stored in JPG format<br/> has file size 100.6 KB</p>
+            </td>
+            <td class="photo">
+                <img src="../static/images/article/ship_wreck_480x300.png" alt="photo in the PNG format" title="photo in the PNG format">
+                <p class="img_caption">Photo stored in PNG format<br/> has file size 358.01 KB</p>
+            </td>
+        </tr>
+    </table>
+
+    <p>
+        The photo stored in PNG has a significantly bigger size - in this case, it’s more than 250% of the original.
+        The size of the photo stored in PNG will always be bigger than of JPG. The main cause of this difference
+        is the number of colours stored in each of the formats: PNG stores all colours, while JPG “assumes” that
+        a human eye is not able to detect differences between very similar colours, so pixels with similar
+        colours are grouped together and assigned the same colour.
+        <strong>This makes JPG the best format for storing photos.</strong>
+    </p>
+
+    <p>
+        In the second example you can see a chart showing monthly average temperatures in Warsaw, stored both in JPG and PNG.
+    </p>
+    <table class="article_table">
+        <tr>
+            <td class="photo">
+                <img src="../static/images/article/monthly-average-temperature-in-warsaw.jpg" alt="chart in the JPG format" title="chart in the JPG format">
+                <p class="img_caption">Temperature chart stored in JPG format<br/> has file size 36.65 KB</p>
+            </td>
+            <td class="photo">
+                <img src="../static/images/article/monthly-average-temperature-in-warsaw.png" alt="chart in the PNG format" title="chart in the PNG format">
+                <p class="img_caption"></p>
+                <p class="img_caption">Temperature chart stored in PNG format<br/> has file size 22.74 KB</p>
+            </td>
+        </tr>
+    </table>
+    <p>
+        Storing the chart in the PNG format allows us to save a lot of space - in this case 63%.
+    </p>
+
+    <p>
+        Another advantage of PNG is that charts can achieve much higher quality, in comparison to JPG.
+    </p>
+    <img class="article_increased_image" src="../static/images/article/chart-quality-decresed-in-jpeg.jpg" alt="how JPG decreases chart quality" title="how JPG decreases chart quality">
+    <p class="img_caption">Noise introduced by JPG</p>
+
+    <p>
+        The picture of a zoomed-in part of a chart stored in JPG presented above, shows that this format introduces
+        a noticeable “noise” around high-contrast areas (around the borders and near the text).
+        These disturbance is caused by the JPG compression algorithm attempting to adjoin similar colours
+        (the average of black and white creates grey).
+    </p>
+    <p>
+        Considering the quality and the file size, <strong>PNG is the best choice for storing illustrations.</strong>
+    </p>
+    <p>
+        Whether you are a pupil, a student (creating charts), a worker (making diagrams and presentations),
+        a parent (trying to save your children’s first drawings and taking photos), or an online auctioneer,
+        I hope that you will find this information useful.
+    </p>
+</div>
+
+</div>
+
+<div class="clear_both"></div>
+</div>
+
+<div class="container">
+    <div class="space_before_feature_description"></div>
+    <div class="atsharing">
+            <!-- AddThis Button BEGIN -->
+            <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+                <a class="addthis_button_preferred_1"></a>
+                <a class="addthis_button_preferred_2"></a>
+                <a class="addthis_button_preferred_3"></a>
+                <a class="addthis_button_preferred_4"></a>
+                <a class="addthis_button_compact"></a>
+                <a class="addthis_counter addthis_bubble_style"></a>
+            </div>
+            <script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
+
+            <!-- AddThis Button END -->
+    </div>
+    <div class="clear_both"></div>
+</div>
+
+<div class="feature_description_container">
+    <div class="feature_description">
+        
+        
+    </div>
+</div>
+
+<div class="container">
+    <div class="footer">
+        <div class="footer_item copyright ">Copyright © 2021</div>
+        <div class="footer_links">
+            <div class="footer_item about"><a href="{% url 'image_advice' %}">Image Advice</a></div>
+            <div class="footer_item contact"><a href="{% url 'faq' %}">FAQ</a></div>
+            <div class="footer_item about"><a href="{% url 'about' %}">About</a></div>
+            <div class="footer_item privacy"><a href="{% url 'privacy' %}">Image Privacy</a></div>
+            <div class="footer_item privacy"><a href="{% url 'privacy_policy' %}">Privacy Policy</a></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function closeFlashMessage()
+    {
+        var elements = document.getElementsByClassName('block-message');
+        for (i = 0; i < elements.length; i++){
+            elements[i].style.display = 'none';
+        }
+    }
+
+    function percentMethodSelected(){
+        $('#percent').show();
+        $('#dimensions').hide();
+        $('#percent-method').attr('checked', true);
+    }
+
+    function dimensionsMethodSelected(){
+        $('#percent').hide();
+        $('#dimensions').show();
+        $('#dimensions-method').attr('checked', true);
+    }
+
+    function triggerSelectFileDialog(){
+        document.getElementById('fileInput').click();
+    }
+
+    function updateFileInput(){
+        document.getElementById('filePath').value = document.getElementById('fileInput').value;
+    }
+
+</script>
+
+<script src="../static/js/jquery-ui-1.9.2.min.js"></script>
+
+<script>
+      var cb = function() {
+        var l = document.createElement('link'); l.rel = 'stylesheet';
+        l.href = '../static/css/jquery-ui-1.9.2.custom.min.css';
+        var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
+      };
+      var raf = requestAnimationFrame || mozRequestAnimationFrame ||
+          webkitRequestAnimationFrame || msRequestAnimationFrame;
+      if (raf) raf(cb);
+      else window.addEventListener('load', cb);
+    </script>
+
+<script>
+$(document).ready(function(){
+    $.getScript("../../s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50c6244e3c16bc1b");
+});
+</script>
+</body>
+</html>

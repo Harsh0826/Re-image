@@ -1,0 +1,278 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+{% load static %}
+<html lang="en">
+  
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<head>
+      <title>Simple Image Compressor - compress images online for free. </title>
+      <meta name="description" content="Compress images and photos online. Make your image 30-60% smaller without losing human eye quality." />
+      <meta name="keywords" content="online image compressor, compress image online, compress images online, compress pictures online, compress photos, reduce photo size, reduce picture size" />
+
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+	  <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+	  <script src="{% static 'js/jquery-1.8.3.min.js' %}"></script>
+
+
+     <style>
+    .ui-widget .ui-widget { font-size: 0.6em; }
+    .ui-widget-header { display:none; }
+    #dialog-modal p {text-align:center;}     
+     </style>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.btn {
+  background-color: DodgerBlue;
+  border: none;
+  color: white;
+  padding: 12px 30px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+  background-color: RoyalBlue;
+}
+</style>
+
+<script type="text/javascript">
+    
+    $(document).ready(function() {
+
+           var $dialog = $('<div></div>')
+                .html('<div id="dialog-modal">\
+                    <p></p>\
+                    <p><img src="{% static "images/dots.gif" %}" width="40" height="40"></p>\
+                    <p>Uploading image...</p>\
+                    </div>')
+                .dialog({
+                    height: 160,
+                    width: 400,
+                    title: 'titleee'});
+
+          $dialog.dialog('close');
+
+           $("#submit-resize-button").click(function(){
+               var fileName = $('#fileInput').val();
+               if (fileName !== ''){
+                   $dialog.dialog('open');
+               }
+        });
+
+        if (typeof lastHeight !== 'undefined') {
+            $('#height').val(lastHeight);
+        }
+        if (typeof lastWidth !== 'undefined') {
+            $('#width').val(lastWidth);
+        }
+
+
+        
+    if (typeof lastHeight !== 'undefined') {
+        $('#height').val(lastHeight);
+    }
+    if (typeof lastWidth !== 'undefined') {
+      $('#width').val(lastWidth);
+    }
+
+    });
+</script>
+
+  </head>
+<body>
+<div id="fb-root"></div>
+
+<div class="container">
+
+
+<div class="top_menu">
+    <div class="menu">
+        <ul>
+            <li><a class="currentM6enuItem" href="{% url 'index' %}">Image Resizer</a></li>
+            <li><a class="" href="{% url 'image_compressor' %}">Image Compressor</a></li>
+            <li><a class="" href="{% url 'online_image_converter' %}">Image Converter</a></li>
+            <li><a class="" href="{% url 'image_dehazer' %}">Image De-Hazer</a></li>
+        </ul>
+    </div>
+</div>
+
+<a href="{% url 'index' %}">
+    <div class="logo">
+        <img src="{% static 'images/simple-image-resizer-128x128.png' %}" alt="free online Re-Image logo"/>
+        <div>Re-Image [Image Editor]</div>
+        <div class="tagline">Resize image without losing quality!</div>
+    </div>
+</a>
+
+<div class="clear_both"></div>
+
+<center>
+    {% if edit_url %}
+    <button class="btn">
+        <a class="fa fa-download" href="{{edit_url}}" download align="center" 
+        style="color:aliceblue; text-decoration: none; ">
+            Download Image
+        </a>
+    </button>
+    <br><br>
+    {% endif %}
+</center>
+
+<center>
+
+    {% if raw_url or edit_url %}
+        <span>
+            <img src={{raw_url}} width="400" height="270" alt="Original Image" style="border-radius: 15px;">
+            &nbsp;&nbsp;
+            <img src={{edit_url}} width="400" height="270" alt="De-Hazed Image" style="border-radius: 15px;">    
+        </span>
+        <br><br>
+    {% endif %}
+
+</center>
+
+<div class="left_column">
+    <div>
+
+        <form id="resize-form" action="/image_dehazer_method/" method="post" enctype="multipart/form-data">
+            
+            {% csrf_token %}
+
+            <br>
+
+            <input id="fileInput" type="file" name="image" onchange="updateFileInput()" required/>
+            <input id="filePath" type="text" onclick="triggerSelectFileDialog();" placeholder="Select image from computer"/>
+            <input type="button" class="button blue large" value="Select image" onclick="triggerSelectFileDialog();" />
+
+            <br/><br/>
+
+            <input id="submit-resize-button" type="submit" class="button green large resize-btn" value="De-Haze Image" />   
+        </form>
+    </div>
+
+</div>
+
+<div class="clear_both"></div>
+</div>
+
+<div class="container">
+    <div class="space_before_feature_description"></div>
+    <div class="atsharing">
+            <!-- AddThis Button BEGIN -->
+            <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+                <a class="addthis_button_preferred_1"></a>
+                <a class="addthis_button_preferred_2"></a>
+                <a class="addthis_button_preferred_3"></a>
+                <a class="addthis_button_preferred_4"></a>
+                <a class="addthis_button_compact"></a>
+                <a class="addthis_counter addthis_bubble_style"></a>
+            </div>
+            <script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
+
+            <!-- AddThis Button END -->
+    </div>
+    <div class="clear_both"></div>
+</div>
+
+<div class="feature_description_container">
+    <div class="feature_description">
+        
+<div>
+    <h1>Image Compressor - makes image smaller</h1>
+    <p>
+        Some limitations of images captured from Outdoor in bad weather:
+        <ul>
+        <li>Outdoor images captured in bad weather are prone to yield poor visibility, which is a fatal problem 
+            for most computer vision applications.</li>
+        <li>Due to the atmospheric suspended particles (aerosols, water droplets, etc.) that absorb and scatter 
+            light before reaching a camera, outdoor images that are captured in bad weather (haze, fog, etc.) are 
+            significantly degraded and yield poor visibility, such as blurred scene content, reduced contrast, and 
+            faint surface color.</li>
+        </ul>
+
+    </p>
+    <p>
+        Re-Image De-Hazer will helps you:
+        <ul>
+        <li>Re-Image is online web-application which can help you to remove fog or haze form your 
+            photo online and as a response you will get final photo or image which having high quality 
+            and enhanced clear image.</li>
+        </ul>
+    </p>
+</div>
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="footer">
+        <div class="footer_item copyright ">Copyright © 2021</div>
+        <div class="footer_links">
+            <div class="footer_item about"><a href=" {% url 'image_advice' %}">Image Advice</a></div>
+            <div class="footer_item contact"><a href="{% url 'faq' %}">FAQ</a></div>
+            <div class="footer_item about"><a href="{% url 'about' %}">About</a></div>
+            <div class="footer_item privacy"><a href="{% url 'privacy' %}">Image Privacy</a></div>
+            <div class="footer_item privacy"><a href="{% url 'privacy_policy' %}">Privacy Policy</a></div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    function closeFlashMessage()
+    {
+        var elements = document.getElementsByClassName('block-message');
+        for (i = 0; i < elements.length; i++){
+            elements[i].style.display = 'none';
+        }
+    }
+
+    function percentMethodSelected(){
+        $('#percent').show();
+        $('#dimensions').hide();
+        $('#percent-method').attr('checked', true);
+    }
+
+    function dimensionsMethodSelected(){
+        $('#percent').hide();
+        $('#dimensions').show();
+        $('#dimensions-method').attr('checked', true);
+    }
+
+    function triggerSelectFileDialog(){
+        document.getElementById('fileInput').click();
+    }
+
+    function updateFileInput(){
+        document.getElementById('filePath').value = document.getElementById('fileInput').value;
+    }
+
+</script>
+
+<script src="static/js/jquery-ui-1.9.2.min.js"></script>
+
+<script>
+      var cb = function() {
+        var l = document.createElement('link'); l.rel = 'stylesheet';
+        l.href = 'static/css/jquery-ui-1.9.2.custom.min.css';
+        var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
+      };
+      var raf = requestAnimationFrame || mozRequestAnimationFrame ||
+          webkitRequestAnimationFrame || msRequestAnimationFrame;
+      if (raf) raf(cb);
+      else window.addEventListener('load', cb);
+    </script>
+
+
+
+
+<script>
+$(document).ready(function(){
+    $.getScript("../s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50c6244e3c16bc1b");
+});
+</script>
+
+</body>
+</html>

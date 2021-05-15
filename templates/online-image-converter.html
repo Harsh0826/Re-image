@@ -1,0 +1,267 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+{% load static %}
+<html lang="en">
+  
+<!-- Mirrored from www.simpleimageresizer.com/online-image-converter by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 10 Apr 2021 16:25:11 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+      <title>Online image converter - online convert image to JPG, PNG, PDF, BMP, GIF, TIFF </title>
+      <meta name="description" content="The easiest free online image converter. Convert your image to JPG, JPEG, PNG, BMP, GIF, TIFF or PDF format." />
+      <meta name="keywords" content="online image converter, convert pictures, convert photos, convert pics, convert png to jpg" />
+
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+	  <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+	  <script src="{% static 'js/jquery-1.8.3.min.js' %}"></script>
+
+     <style>
+    .ui-widget .ui-widget { font-size: 0.6em; }
+    .ui-widget-header { display:none; }
+    #dialog-modal p {text-align:center;}     
+     </style>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.btn {
+  background-color: DodgerBlue;
+  border: none;
+  color: white;
+  padding: 12px 30px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+  background-color: RoyalBlue;
+}
+</style>
+
+
+
+<script type="text/javascript">
+    
+    $(document).ready(function() {
+
+           var $dialog = $('<div></div>')
+                .html('<div id="dialog-modal">\
+                    <p></p>\
+                    <p><img src="{% static "images/dots.gif" %}" width="40" height="40"></p>\
+                    <p>Uploading image...</p>\
+                    </div>')
+                .dialog({
+                    height: 160,
+                    width: 400,
+                    title: 'titleee'});
+
+          $dialog.dialog('close');
+
+           $("#submit-resize-button").click(function(){
+               var fileName = $('#fileInput').val();
+               if (fileName !== ''){
+                   $dialog.dialog('open');
+               }
+        });
+
+        if (typeof lastHeight !== 'undefined') {
+            $('#height').val(lastHeight);
+        }
+        if (typeof lastWidth !== 'undefined') {
+            $('#width').val(lastWidth);
+        }
+
+
+        
+
+
+    });
+</script>
+
+  </head>
+<body>
+<div id="fb-root"></div>
+
+<div class="container">
+
+
+<div class="top_menu">
+    <div class="menu">
+        <ul>
+            <li><a class="currentM6enuItem" href="{% url 'index' %}">Image Resizer</a></li>
+            <li><a class="" href="{% url 'image_compressor' %}">Image Compressor</a></li>
+            <li><a class="" href="{% url 'online_image_converter' %}">Image Converter</a></li>
+            <li><a class="" href="{% url 'image_dehazer' %}">Image De-Hazer</a></li>
+        </ul>
+    </div>
+</div>
+
+<a href="{% url 'index' %}">
+    <div class="logo">
+        <img src="{% static 'images/simple-image-resizer-128x128.png' %}" alt="free online Re-Image logo"/>
+        <div>Re-Image [Image Editor]</div>
+        <div class="tagline">Resize image without losing quality!</div>
+    </div>
+</a>
+
+<div class="clear_both"></div>
+
+<div class="left_column">
+
+    <div>
+        <form id="resize-form" action="/online_image_converter_method/" method="post" enctype="multipart/form-data">
+            
+            {% csrf_token %}
+            
+            {% if edit_url %}
+            <button class="btn">
+                <a class="fa fa-download" href="{{edit_url}}" download align="center" 
+                style="color:aliceblue; text-decoration: none; ">
+                    Download Image
+                </a>
+            </button>
+            {% endif %}
+    
+            <br><br>
+
+            <input id="fileInput" type="file" name="image" onchange="updateFileInput()" required/>
+            <input id="filePath" type="text" onclick="triggerSelectFileDialog();" placeholder="Select image from computer"/>
+            <input type="button" class="button blue large" value="Select image" onclick="triggerSelectFileDialog();" />
+
+            <br/>
+
+            <div class="radios">
+                <div class="formats" >
+                    <span class="select-format-label">Select new format:</span>
+                    <select name="image_format" class="target-format-select" id="image_format">
+                        <option value="jpg" selected="selected">jpg</option>
+                        <option value="jpeg">jpeg</option>
+                        <option value="png">png</option>
+                        <option value="webp">webp</option>
+                        <option value="bmp">bmp</option>
+                        <option value="tiff">tiff</option>
+                        <option value="svg">svg</option>
+                        <option value="gif">gif</option>
+                        <option value="eps">eps</option>
+                    </select>
+                </div>
+            </div>
+            <input id="submit-resize-button" type="submit" class="button green large resize-btn" value="Convert Image" />
+        </form>
+    </div>
+
+    <script type="text/javascript">
+     $('#submit-resize-button').click(function () {
+            var targetFormat = $('#targetFormatId').find(":selected").text();
+            console.log(targetFormat);
+            _gaq.push(['_trackEvent', 'convert', "->"+targetFormat, "-"]);
+        });
+    </script>
+
+</div>
+
+<div class="clear_both"></div>
+</div>
+
+<div class="container">
+    <div class="space_before_feature_description"></div>
+    <div class="atsharing">
+            <!-- AddThis Button BEGIN -->
+            <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+                <a class="addthis_button_preferred_1"></a>
+                <a class="addthis_button_preferred_2"></a>
+                <a class="addthis_button_preferred_3"></a>
+                <a class="addthis_button_preferred_4"></a>
+                <a class="addthis_button_compact"></a>
+                <a class="addthis_counter addthis_bubble_style"></a>
+            </div>
+            <script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
+
+            <!-- AddThis Button END -->
+    </div>
+    <div class="clear_both"></div>
+</div>
+
+<div class="feature_description_container">
+    <div class="feature_description">
+        
+<div>
+    <h1>Online Image Converter</h1>
+    <p>
+        Simple <strong>Online Image Converter</strong> is online application which converts image from one format to another (eg. jpg to png, png to jpg, jpg to pdf).
+        This Image Converter supports converting image to the following formats: JPG, PNG, PDF, GIF, BMP, TIFF.
+    </p>
+    <p>
+        With the Simple <strong>Online Image Converter</strong>, all you have to do is upload an image and choose the new format that you’re looking for.
+        It is easy, fast and free tool.
+    </p>
+    <h2>Online Image Converter helps you change image format.</h2>
+</div>
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="footer">
+        <div class="footer_item copyright ">Copyright © 2021</div>
+        <div class="footer_links">
+            <div class="footer_item about"><a href=" {% url 'image_advice' %}">Image Advice</a></div>
+            <div class="footer_item contact"><a href="{% url 'faq' %}">FAQ</a></div>
+            <div class="footer_item about"><a href="{% url 'about' %}">About</a></div>
+            <div class="footer_item privacy"><a href="{% url 'privacy' %}">Image Privacy</a></div>
+            <div class="footer_item privacy"><a href="{% url 'privacy_policy' %}">Privacy Policy</a></div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    function closeFlashMessage()
+    {
+        var elements = document.getElementsByClassName('block-message');
+        for (i = 0; i < elements.length; i++){
+            elements[i].style.display = 'none';
+        }
+    }
+
+    function percentMethodSelected(){
+        $('#percent').show();
+        $('#dimensions').hide();
+        $('#percent-method').attr('checked', true);
+    }
+
+    function dimensionsMethodSelected(){
+        $('#percent').hide();
+        $('#dimensions').show();
+        $('#dimensions-method').attr('checked', true);
+    }
+
+    function triggerSelectFileDialog(){
+        document.getElementById('fileInput').click();
+    }
+
+    function updateFileInput(){
+        document.getElementById('filePath').value = document.getElementById('fileInput').value;
+    }
+
+</script>
+
+<script src="static/js/jquery-ui-1.9.2.min.js"></script>
+
+<script>
+      var cb = function() {
+        var l = document.createElement('link'); l.rel = 'stylesheet';
+        l.href = 'static/css/jquery-ui-1.9.2.custom.min.css';
+        var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
+      };
+      var raf = requestAnimationFrame || mozRequestAnimationFrame ||
+          webkitRequestAnimationFrame || msRequestAnimationFrame;
+      if (raf) raf(cb);
+      else window.addEventListener('load', cb);
+    </script>
+<script>
+$(document).ready(function(){
+    $.getScript("../s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50c6244e3c16bc1b");
+});
+</script>
+</body>
+</html>

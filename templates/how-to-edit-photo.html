@@ -1,0 +1,228 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+{% load static %}
+<html lang="en">
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<head>
+      <title>How to edit photo?</title>
+      <meta name="description" content="Online application Re-Image is designed to resize photos only. If you need more advanced edit tool you can use "Pixlr editor"." />
+      <meta name="keywords" content="" />
+
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+	  <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+	  <script src="{% static 'js/jquery-1.8.3.min.js' %}"></script>
+      
+     <style>
+    .ui-widget .ui-widget { font-size: 0.6em; }
+    .ui-widget-header { display:none; }
+    #dialog-modal p {text-align:center;}     
+     </style>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+           var $dialog = $('<div></div>')
+                .html('<div id="dialog-modal">\
+                    <p></p>\
+                    <p><img src="{% static "images/dots.gif" %}" width="40" height="40"></p>\
+                    <p>Uploading image...</p>\
+                    </div>')
+                .dialog({
+                    height: 160,
+                    width: 400,
+                    title: 'titleee'});
+
+          $dialog.dialog('close');
+
+           $("#submit-resize-button").click(function(){
+               var fileName = $('#fileInput').val();
+               if (fileName !== ''){
+                   $dialog.dialog('open');
+               }
+        });
+
+        if (typeof lastHeight !== 'undefined') {
+            $('#height').val(lastHeight);
+        }
+        if (typeof lastWidth !== 'undefined') {
+            $('#width').val(lastWidth);
+        }
+
+
+        
+        var sliderValue = 50;
+        if (typeof lastUserSliderValue !== 'undefined') {
+            sliderValue = lastUserSliderValue;
+        }
+        if ($("#percent-resize") == "") {
+            sliderValue = $("#percent-resize").slider("value");
+        }
+
+        $("#percent-slider").slider({
+            min:1,
+            max:100,
+            value:sliderValue,
+            slide:function (event, ui) {
+                $("#percent-resize").val(ui.value);
+            }
+        });
+
+        $("#percent-resize").val(sliderValue);
+
+
+        if (typeof lastResizeMethod !== 'undefined') {
+            if (lastResizeMethod == "dimensions") {
+                dimensionsMethodSelected();
+            } else {
+                percentMethodSelected();
+            }
+        } else {
+            percentMethodSelected();
+        }
+
+        $('#percent-method').click(function () {
+            percentMethodSelected();
+        });
+
+        $('#dimensions-method').click(function () {
+            dimensionsMethodSelected();
+        });
+
+
+
+    });
+</script>
+
+  </head>
+<body>
+<div id="fb-root"></div>
+
+<div class="container">
+
+
+    <div class="top_menu">
+        <div class="menu">
+            <ul>
+                <li><a class="currentM6enuItem" href="{% url 'index' %}">Image Resizer</a></li>
+                <li><a class="" href="{% url 'image_compressor' %}">Image Compressor</a></li>
+                <li><a class="" href="{% url 'online_image_converter' %}">Image Converter</a></li>
+                <li><a class="" href="{% url 'image_dehazer' %}">Image De-Hazer</a></li>
+            </ul>
+        </div>
+    </div>
+    
+        <a href="{% url 'index' %}">
+            <div class="logo">
+                <img src="{% static 'images/simple-image-resizer-128x128.png' %}" alt="free online Re-Image logo"/>
+                <div>Re-Image [Image Editor]</div>
+                <div class="tagline">Resize image without losing quality!</div>
+            </div>
+        </a>
+
+<div class="clear_both"></div>
+
+
+<div class="left_column">
+
+    <div>
+        <h1>How to edit photo?</h1>
+        <p class="answer">Online application <a href="{% url 'index' %}">Re-Image</a> is designed to resize images, pictures and photos only.
+            If you need more advanced editing tool you can use <a href="http://pixlr.com/editor/">Pixlr editor</a>.
+        </p>
+    </div>
+
+</div>
+
+<div class="clear_both"></div>
+</div>
+
+<div class="container">
+    <div class="space_before_feature_description"></div>
+    <div class="atsharing">
+            <!-- AddThis Button BEGIN -->
+            <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+                <a class="addthis_button_preferred_1"></a>
+                <a class="addthis_button_preferred_2"></a>
+                <a class="addthis_button_preferred_3"></a>
+                <a class="addthis_button_preferred_4"></a>
+                <a class="addthis_button_compact"></a>
+                <a class="addthis_counter addthis_bubble_style"></a>
+            </div>
+            <script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
+
+            <!-- AddThis Button END -->
+    </div>
+    <div class="clear_both"></div>
+</div>
+
+<div class="feature_description_container">
+    <div class="feature_description">
+        
+        
+    </div>
+</div>
+
+<div class="container">
+    <div class="footer">
+        <div class="footer_item copyright ">Copyright © 2021</div>
+        <div class="footer_links">
+            <div class="footer_item about"><a href="{% url 'image_advice' %}">Image Advice</a></div>
+            <div class="footer_item contact"><a href="{% url 'faq' %}">FAQ</a></div>
+            <div class="footer_item about"><a href="{% url 'about' %}">About</a></div>
+            <div class="footer_item privacy"><a href="{% url 'privacy' %}">Image Privacy</a></div>
+            <div class="footer_item privacy"><a href="{% url 'privacy_policy' %}">Privacy Policy</a></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function closeFlashMessage()
+    {
+        var elements = document.getElementsByClassName('block-message');
+        for (i = 0; i < elements.length; i++){
+            elements[i].style.display = 'none';
+        }
+    }
+
+    function percentMethodSelected(){
+        $('#percent').show();
+        $('#dimensions').hide();
+        $('#percent-method').attr('checked', true);
+    }
+
+    function dimensionsMethodSelected(){
+        $('#percent').hide();
+        $('#dimensions').show();
+        $('#dimensions-method').attr('checked', true);
+    }
+
+    function triggerSelectFileDialog(){
+        document.getElementById('fileInput').click();
+    }
+
+    function updateFileInput(){
+        document.getElementById('filePath').value = document.getElementById('fileInput').value;
+    }
+
+</script>
+
+<script src="static/js/jquery-ui-1.9.2.min.js"></script>
+
+<script>
+      var cb = function() {
+        var l = document.createElement('link'); l.rel = 'stylesheet';
+        l.href = 'static/css/jquery-ui-1.9.2.custom.min.css';
+        var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
+      };
+      var raf = requestAnimationFrame || mozRequestAnimationFrame ||
+          webkitRequestAnimationFrame || msRequestAnimationFrame;
+      if (raf) raf(cb);
+      else window.addEventListener('load', cb);
+    </script>
+<script>
+$(document).ready(function(){
+    $.getScript("../s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50c6244e3c16bc1b");
+});
+</script>
+
+</body>
+</html>
